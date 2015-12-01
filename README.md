@@ -1,8 +1,10 @@
-# chef-rattis
+# chef-rattic
 
 ## Description
 
-Install/configures Rattis
+RatticDB is a password management database designed for humans. We have focused on making it able to manage passwords for a team and to make that as easy as possible. We have setup a demo site so that you can evaluate whether RatticDB will suit your needs.
+
+This cookbook installs and configures RatticDB 
 
 ## Requirements
 
