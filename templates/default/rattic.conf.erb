@@ -1,0 +1,59 @@
+WSGIPythonPath <%= node['rattic']['apache2']['doc_root'] %>
+
+<VirtualHost *:80>
+    ServerName <%= node['rattic']['apache2']['server_name'] %>
+    ServerAlias <%= node['rattic']['apache2']['server_aliases'] %>
+   
+    #Redirect permanent / https://<%= node['rattic']['apache2']['server_name'] %>
+    RewriteEngine On
+    # This will enable the Rewrite capabilities
+
+    RewriteCond %{HTTPS} !=on
+    # This checks to make sure the connection is not already HTTPS
+
+    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName <%= node['rattic']['apache2']['server_name'] %>
+    ServerAlias <%= node['rattic']['apache2']['server_aliases'] %>
+
+    SSLEngine on
+    SSLCertificateFile <%= node['rattic']['apache2']['ssl']['certificate_file'] %>
+    SSLCertificateKeyFile <%= node['rattic']['apache2']['ssl']['key_file'] %>
+    <% unless node['rattic']['apache2']['ssl']['chain_file'].empty? -%>
+    SSLCertificateChainFile <%= node['rattic']['apache2']['ssl']['chain_file'] %>
+    <% end -%>
+
+    Alias /robots.txt <%= node['rattic']['apache2']['doc_root'] %>/static/robots.txt
+    Alias /favicon.ico <%= node['rattic']['apache2']['doc_root'] %>/static/favicon.ico
+
+    AliasMatch ^/([^/]*\.css) <%= node['rattic']['apache2']['doc_root'] %>/static/styles/$1
+
+    Alias /media/ <%= node['rattic']['apache2']['doc_root'] %>/media/
+    Alias /static/ <%= node['rattic']['apache2']['doc_root'] %>/static/
+
+    <Directory <%= node['rattic']['apache2']['doc_root'] %>/static>
+        Require all granted
+    </Directory>
+
+    <Location "/static/">
+        Options -Indexes
+    </Location>
+
+    <Directory <%= node['rattic']['apache2']['doc_root'] %>/media>
+        Require all granted
+    </Directory>
+
+    <Directory <%= node['rattic']['apache2']['doc_root'] %>>
+        <Files wsgi.py>
+            Require all granted
+        </Files>
+    </Directory>
+
+    WSGIScriptAlias / <%= node['rattic']['apache2']['doc_root'] %>/wsgi.py
+    WSGIPassAuthorization On
+
+    WSGIDaemonProcess rattic processes=2 threads=25 home=<%= node['rattic']['apache2']['doc_root'] %> python-path=<%= node['rattic']['apache2']['doc_root'] %> display-name=%{GROUP}
+    WSGIProcessGroup rattic
+</VirtualHost>
