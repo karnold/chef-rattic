@@ -39,3 +39,15 @@ default['rattic']['apache2']['ssl']['key_file'] = value_for_platform(
     'default' => '/etc/ssl/private/ssl-cert-snakeoil.key'
   }
 )
+
+default['rattic']['ldap']['enable'] = true
+default['rattic']['ldap']['uri'] = 'ldap://localhost'
+default['rattic']['ldap']['userbase'] = 'ou=users,dc=example,dc=com'
+default['rattic']['ldap']['userfilter'] = '(sAMAccountName=%(user)s)'
+default['rattic']['ldap']['groupbase'] = 'ou=django,ou=groups,dc=example,dc=com'
+default['rattic']['ldap']['groupfilter'] = '(objectClass=group)'
+default['rattic']['ldap']['grouptype'] = 'ActiveDirectoryGroupType'
+default['rattic']['ldap']['staff'] = 'cn=staff,ou=groups,dc=example,dc=com'
+default['rattic']['ldap']['requirecert'] = 'False'
+default['rattic']['ldap']['binddn'] = 'rattic@win.int.tildaslash.com'
+default['rattic']['ldap']['bindpw'] = 'R4tticP4ss'

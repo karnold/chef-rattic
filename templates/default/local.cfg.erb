@@ -13,3 +13,24 @@ user = <%= node['rattic']['mysql_user'] %>
 password = <%= node['mysql']['server_root_password'] %>
 host = 
 port =
+
+[ldap]
+# LDAP server details
+uri = <%= node['rattic']['ldap']['uri'] %>
+
+# LDAP Bind Settings
+binddn = <%= node['rattic']['ldap']['binddn'] %>
+bindpw = <%= node['rattic']['ldap']['bindpw'] %>
+
+# User parameters
+userbase = <%= node['rattic']['ldap']['userbase'] %>
+userfilter = <%= node['rattic']['ldap']['userfilter'] %>
+
+# Set up the basic group parameters.
+groupbase = <%= node['rattic']['ldap']['groupbase'] %>
+groupfilter = <%= node['rattic']['ldap']['groupfilter'] %>
+grouptype = <%= node['rattic']['ldap']['grouptype'] %>
+
+# How do I find staff
+staff = <%= node['rattic']['ldap']['staff'] %>
+requirecert = <%= node['rattic']['ldap']['requirecert'] %>

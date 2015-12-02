@@ -4,14 +4,7 @@ WSGIPythonPath <%= node['rattic']['apache2']['doc_root'] %>
     ServerName <%= node['rattic']['apache2']['server_name'] %>
     ServerAlias <%= node['rattic']['apache2']['server_aliases'] %>
    
-    #Redirect permanent / https://<%= node['rattic']['apache2']['server_name'] %>
-    RewriteEngine On
-    # This will enable the Rewrite capabilities
-
-    RewriteCond %{HTTPS} !=on
-    # This checks to make sure the connection is not already HTTPS
-
-    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+    Redirect permanent / https://<%= node['rattic']['apache2']['server_name'] %>
 </VirtualHost>
 
 <VirtualHost *:443>
