@@ -20,6 +20,13 @@ mysql_service 'rattic' do
 	action [:create, :start]
 end
 
+mysql_config 'rattic' do
+	instance 'rattic'
+	source 'rattic.cnf.erb'
+	notifies :restart, 'mysql_service[rattic]'
+	action :create
+end
+
 execute "link mysql socket" do
 	command "ln -sf /run/mysql-rattic/* /var/run/mysqld/"
 end
